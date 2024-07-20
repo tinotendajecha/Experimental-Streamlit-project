@@ -17,51 +17,51 @@ qdrant_host = os.getenv('QDRANT_HOST')
 client = QdrantClient(url=qdrant_host)
 
 # Function for querying vector points and retrieving their meta data
-def extract_meta_data(sources):
-    # Initialize empty lists
-    retrieved_docs = []
-    list_of_metadata = []
-    metadata = {}
+# def extract_meta_data(sources):
+#     # Initialize empty lists
+#     retrieved_docs = []
+#     list_of_metadata = []
+#     metadata = {}
 
-    # Loop the sources list and extract the id and collection name
-    for source in sources:
-        doc_id = source.metadata['_id']
-        collection_name = source.metadata['_collection_name']
+#     # Loop the sources list and extract the id and collection name
+#     for source in sources:
+#         doc_id = source.metadata['_id']
+#         collection_name = source.metadata['_collection_name']
 
-        # Query every document and append to list
-        document = client.retrieve(
-            collection_name=collection_name,
-            ids=[doc_id],
-            with_payload=True
-        )
+#         # Query every document and append to list
+#         document = client.retrieve(
+#             collection_name=collection_name,
+#             ids=[doc_id],
+#             with_payload=True
+#         )
         
-        # Append the retrieved docs to the list
-        retrieved_docs.append(document)
+#         # Append the retrieved docs to the list
+#         retrieved_docs.append(document)
     
-    # Loop through the retrieved docs and extract the metadata
-    for each_doc in retrieved_docs:
-        record = each_doc[0]
+#     # Loop through the retrieved docs and extract the metadata
+#     for each_doc in retrieved_docs:
+#         record = each_doc[0]
         
-        # Destructuring the data type
-        retrieved_payload = record.payload
+#         # Destructuring the data type
+#         retrieved_payload = record.payload
 
-        # Extract the metadata
-        source_doc = retrieved_payload['source']
-        page_content = retrieved_payload['page_content']
-        page_number = retrieved_payload['page']
+#         # Extract the metadata
+#         source_doc = retrieved_payload['source']
+#         page_content = retrieved_payload['page_content']
+#         page_number = retrieved_payload['page']
 
-        # Create an object for each meta data
-        metadata = {
-            "Source Document" :source_doc,
-            "Page Content" :page_content,
-            "Page Number" : page_number
-        }
+#         # Create an object for each meta data
+#         metadata = {
+#             "Source Document" :source_doc,
+#             "Page Content" :page_content,
+#             "Page Number" : page_number
+#         }
 
-        # Append the metadata to the list
-        list_of_metadata.append(metadata)
+#         # Append the metadata to the list
+#         list_of_metadata.append(metadata)
 
-    # Return the list of metadata
-    return list_of_metadata
+#     # Return the list of metadata
+#     return list_of_metadata
 
 
 # Function for retrieving the list of collections from qdrant store
@@ -139,32 +139,32 @@ def main():
         st.markdown(':green[Response:]')
         st.write(response['result'])
 
-        time.sleep(1)
+        # time.sleep(1)
 
         # Print sources below
-        st.header(':red[Sources used:]')
+        # st.header(':red[Sources used:]')
 
-        sources = response['source_documents']
+        # sources = response['source_documents']
 
         # for source in sources:
         #     st.markdown(f':green[{source.page_content}]')
 
-        sources = response['source_documents']
+        # sources = response['source_documents']
         
 
         # call extract metadata here
-        list_of_metadata = extract_meta_data(sources)
+        # list_of_metadata = extract_meta_data(sources)
 
-        # Loop through the list of metadata and display the source document, page content and page number
-        for payload in list_of_metadata:
-            source_doc = payload['Source Document']
-            page_content = payload['Page Content']
-            page_number = payload['Page Number']
+        # # Loop through the list of metadata and display the source document, page content and page number
+        # for payload in list_of_metadata:
+        #     source_doc = payload['Source Document']
+        #     page_content = payload['Page Content']
+        #     page_number = payload['Page Number']
 
-            st.markdown(f':green[Source Document:] {source_doc}')
-            st.markdown(f':green[Page Number] {page_number}')
-            st.markdown(f':green[Page Content:] {page_content}')
-            st.divider()
+        #     st.markdown(f':green[Source Document:] {source_doc}')
+        #     st.markdown(f':green[Page Number] {page_number}')
+        #     st.markdown(f':green[Page Content:] {page_content}')
+        #     st.divider()
 
 
 if __name__ == '__main__':
